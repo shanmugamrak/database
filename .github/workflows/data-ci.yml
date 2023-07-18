@@ -19,14 +19,14 @@ jobs:
       - name: Reformat SQL Files
         uses: credfeto/action-sql-format@v1.4.1
         
-      - uses: stefanzweifel/git-auto-commit-action@v4.16.0
-        with:
-          commit_message: "[Reformat] SQL Files to common format"
-          file_pattern: "*.sql"
-          commit_user_name: "sqlfmt[bot]"
-          commit_user_email: "github-username@users.noreply.github.com"
-          commit_author: "sqlfmt[bot] <github-username@users.noreply.github.com>"
-          skip_dirty_check: false  
+     # - uses: stefanzweifel/git-auto-commit-action@v4.16.0
+      #  with:
+       #   commit_message: "[Reformat] SQL Files to common format"
+        #  file_pattern: "*.sql"
+         # commit_user_name: "sqlfmt[bot]"
+          #commit_user_email: "github-username@users.noreply.github.com"
+          #commit_author: "sqlfmt[bot] <github-username@users.noreply.github.com>"
+          #skip_dirty_check: false  
 
       #- name: Cache SonarQube packages
        # uses: actions/cache@v3
