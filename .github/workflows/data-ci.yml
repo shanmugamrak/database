@@ -1,4 +1,4 @@
-name: app CI
+name: Database CI
 
 on:
  workflow_dispatch:
