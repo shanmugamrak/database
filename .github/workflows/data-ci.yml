@@ -1,14 +1,48 @@
-name: Database CI
+name: database
 
 on:
  workflow_dispatch:
- 
- 
 jobs:
+  build:
+    name: Build, Scan, Publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:
+      - name: Checkout from Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          
+      - name: Reformat SQL Files
+        uses: credfeto/action-sql-format@v1.4.1
+        
+      - uses: stefanzweifel/git-auto-commit-action@v4.16.0
+        with:
+          commit_message: "[Reformat] SQL Files to common format"
+          file_pattern: "*.sql"
+          commit_user_name: "sqlfmt[bot]"
+          commit_user_email: "github-username@users.noreply.github.com"
+          commit_author: "sqlfmt[bot] <github-username@users.noreply.github.com>"
+          skip_dirty_check: false  
 
-    trigger_javaci: 
-      
-       uses: devsaibala/common-repo/.github/workflows/databaseci.yml@main
-      
-       secrets:
-         Workflow2_PAT_TOKEN_GITHUB: ${{ secrets.Workflow2_PAT_TOKEN_GITHUB }}
+      #- name: Cache SonarQube packages
+       # uses: actions/cache@v3
+        #with:
+         # path: ~/.sonar/cache
+          #key: ${{ runner.os }}-sonar
+          #restore-keys: ${{ runner.os }}-sonar
+          
+      #- name: Build and analyze
+       # env:
+        #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+         # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        #run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=test-maven-project
+        
+      #- name: Publish to GitHub Packages Apache Maven
+       # run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+        #env:
+         # GITHUB_TOKEN: ${{ github.token }}
